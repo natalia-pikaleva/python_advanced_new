@@ -36,9 +36,67 @@ $ echo  ‘абраа..-.кадабра’ | python3 decrypt.py
 
 import sys
 
+def remove_symbol(text: str, index_start: int, count_symb: int) -> str:
+    '''
+    Функция принимает на входе строку text, начальный индекс удаляемых элементов
+    и количество удаляемых элементов и возвращает строку без этих элементов
+    :param text: строка
+    :param index_start: индекс начала удаляемой подстроки
+    :param count_symb: количество символов для удаления
+    :return: строка, в которой удалили count_symb, начиная с индекса index_start
+    '''
+
+    if index_start < 0:
+        return text[count_symb:]
+
+    return text[:index_start] + text[index_start + count_symb:]
+
+
+def remove_two_points(text: str) -> str:
+    '''
+    Функция принимает на входе строку text и возвращает строку по следующему
+    правилу: если в строке есть "..", то символ до двух точек и сами две точки удаляются
+    :param text: строка с дешифровкой
+    :return: строка, получаемая из строки text по следующему правилу:
+    если в строке есть "..", то символ до двух точек и сами две точки удаляются
+    '''
+    index = text.find('..')
+
+    while index != -1:
+        text = remove_symbol(text, index - 1, 3)
+        index = text.find('..')
+
+    return text
+
+
+def remove_one_point(text: str) -> str:
+    '''
+    Функция принимает на входе строку text и возвращает строку по следующему
+    правилу: если в строке есть ".", то эта точка просто удаляется из строки
+    :param text: строка с дешифровкой
+    :return: строка, получаемая из строки text путем удаления одинарных точек
+    '''
+    index = text.find('.')
+
+    while index != -1:
+        text = remove_symbol(text, index, 1)
+        index = text.find('.')
+    return text
+
 
 def decrypt(encryption: str) -> str:
-    ...
+    '''
+    Функция принимает на входе строку encryption с дешифровкой и
+    возвращает расшифрованную строку
+    :param encryption: строка с дешифровкой
+    :return: расшифрованная строка
+    '''
+
+    new_text = remove_two_points(encryption)
+    new_text = remove_one_point(new_text)
+
+    return new_text
+
 
 
 if __name__ == '__main__':
