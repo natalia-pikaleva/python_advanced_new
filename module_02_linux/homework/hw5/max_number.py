@@ -27,13 +27,8 @@ def max_number(numbers_path: str) -> str:
     :return: максимальное число, либо надпись, что все элементами должны быть числами
     '''
     try:
-        numbers_list = [float(num) for num in numbers_path.split('/')]
-        # TODO Обратите внимание на функцию map для преобразования элементов списка
-        max_number = numbers_list[0]
-        for number in numbers_list:
-            if max_number < number:
-                max_number = number
-        # TODO используйте функцию max для нахождения максимального числа
+        numbers_list = list(map(float, [num for num in numbers_path.split('/')]))
+        max_number = max(numbers_list)
         number = str(max_number)
         return f'Максимальное переданное число <i>{number}</i>'
 
