@@ -17,3 +17,11 @@ class TestMaxNumberApp(unittest.TestCase):
         response_text = response.data.decode()
         correct_answer_str = f'<i>{max(numbers)}</i>'
         self.assertTrue(correct_answer_str in response_text)
+
+    def test_cannot_pass_string(self):
+        numbers = 1, 'gh'
+        url = self.base_url + '/'.join(str(i) for i in numbers)
+        response = self.app.get(url)
+        response_text = response.data.decode()
+        correct_answer_str = 'Переданы некоректные значения'
+        self.assertTrue(correct_answer_str in response_text)
