@@ -60,3 +60,6 @@ class TestHelloWorld(unittest.TestCase):
         response = self.app.get('/hello-world/Наталья')
         self.assertEqual(response.status_code, 200)
         self.assertEqual('Привет, Наталья. Хорошего воскресенья!', response.text)
+# TODO Чтобы не дублировать код теста, используйте цикл и контекстный менеджер (общий c self.subTest, тогда
+#  при первом неверном assert тест не завершится, а выполнятся все "кейсы" и будет отчёт для каких значений
+#  тесты провалились, а для каких были успешны)
