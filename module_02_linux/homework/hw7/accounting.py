@@ -28,6 +28,15 @@ def add(date: str, number: int) -> str:
     :param number: расходы
     :return: строка о том, что данные успешно добавлены
     '''
+    try:
+        date_int = int(date)
+        if len(date) != 8:
+            raise TypeError
+    except TypeError:
+        return 'Неверный формат даты'
+    except ValueError:
+        return 'Неверный формат даты'
+
     year = date[:4]
     month = date[4:6]
     storage.setdefault(year, {}).setdefault(month, 0)
