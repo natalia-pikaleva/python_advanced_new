@@ -13,9 +13,13 @@ class TestPerson(unittest.TestCase):
         cls.person = Person('Bob', 1990)
 
     def test__name_and_day_of_birth_is_none(self):
-        try:
+        try:  # TODO для таких случаев намного удобнее использовать self.assertRaises
             new_person = Person()
         except TypeError as context:
+            # TODO в чем необходимость использовать такие "логи" для сообщений об ошибках тестов? Результат теста
+            #  должен быть в рамках системы тестирования, то есть определяется встроенными инструментам self.assertTrue,
+            #  self.assertFalse, self.assertRaises и т.д. Тогда результат тестировния может быть использован системой
+            #  автоматизации деплоя, например (так называемая CI)
             self.error_file.write(f'## Ошибка: TypeError: {context}\n')
             self.error_file.write(
                 '- **Причина**: при инициализации экземпляра класса не установлены значения для name и year_of_birth по умолчанию\n')
