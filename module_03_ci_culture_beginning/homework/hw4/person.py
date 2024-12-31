@@ -27,4 +27,3 @@ class Person:
         returns True if address is not set, false in other case
         '''
         return self.address == ""
-
