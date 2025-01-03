@@ -36,54 +36,6 @@ $ echo  ‘абраа..-.кадабра’ | python3 decrypt.py
 
 import sys
 
-def remove_symbol(text: str, index_start: int, count_symb: int) -> str:
-    '''
-    Функция принимает на входе строку text, начальный индекс удаляемых элементов
-    и количество удаляемых элементов и возвращает строку без этих элементов
-    :param text: строка
-    :param index_start: индекс начала удаляемой подстроки
-    :param count_symb: количество символов для удаления
-    :return: строка, в которой удалили count_symb, начиная с индекса index_start
-    '''
-
-    if index_start < 0:
-        return text[count_symb:]
-
-    return text[:index_start] + text[index_start + count_symb:]
-
-
-def remove_two_points(text: str) -> str:
-    '''
-    Функция принимает на входе строку text и возвращает строку по следующему
-    правилу: если в строке есть "..", то символ до двух точек и сами две точки удаляются
-    :param text: строка с дешифровкой
-    :return: строка, получаемая из строки text по следующему правилу:
-    если в строке есть "..", то символ до двух точек и сами две точки удаляются
-    '''
-    index = text.find('..')
-
-    while index != -1:
-        text = remove_symbol(text, index - 1, 3)
-        index = text.find('..')
-
-    return text
-
-
-def remove_one_point(text: str) -> str:
-    '''
-    Функция принимает на входе строку text и возвращает строку по следующему
-    правилу: если в строке есть ".", то эта точка просто удаляется из строки
-    :param text: строка с дешифровкой
-    :return: строка, получаемая из строки text путем удаления одинарных точек
-    '''
-    index = text.find('.')
-
-    while index != -1:
-        text = remove_symbol(text, index, 1)
-        index = text.find('.')
-    return text
-
-
 def decrypt(encryption: str) -> str:
     '''
     Функция принимает на входе строку encryption с дешифровкой и
@@ -91,13 +43,18 @@ def decrypt(encryption: str) -> str:
     :param encryption: строка с дешифровкой
     :return: расшифрованная строка
     '''
+    result = []
 
-    new_text = remove_two_points(encryption)
-    new_text = remove_one_point(new_text)
+    for symb in encryption:
+        result.append((symb))
 
-    return new_text
+        if len(result) > 2 and (result[-1], result[-2]) == ('.', '.'):
+            result.pop()
+            result.pop()
 
-
+            if len(result) > 0:
+                result.pop()
+    return ''.join(symb for symb in result if symb != '.')
 
 if __name__ == '__main__':
     data: str = sys.stdin.read()
