@@ -6,13 +6,24 @@
 """
 
 from flask import Flask
+import subprocess
+import re
 
 app = Flask(__name__)
 
 
 @app.route("/uptime", methods=['GET'])
-def uptime() -> str:
-    ...
+def _uptime() -> str:
+    result = subprocess.run(['systeminfo'], capture_output=True, text=True, encoding='cp866')
+    uptime_info = result.stdout.strip()
+
+    match = re.search(r'Время загрузки системы:\s+(.*)', uptime_info)
+
+    if match:
+        uptime = match.group(1)
+        return f"Current uptime is {uptime}"
+    else:
+        return "Could not retrieve uptime information."
 
 
 if __name__ == '__main__':
