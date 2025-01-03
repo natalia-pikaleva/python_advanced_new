@@ -19,6 +19,8 @@ def number_length(min: int, max: int, message: Optional[str] = None):
 
     def _number_length(form: FlaskForm, field: Field):
         if field.data < min or field.data > max:
+            # TODO В задании имелась ввиду проверка разрядности (в тексте задания "длины") числа, это значительно удобнее,
+            #  чем указывать само число, особенно если оно очень большое
             raise ValidationError
 
     return _number_length
@@ -30,11 +32,13 @@ class NumberLength:
 
     def __call__(self, form: FlaskForm, field: Field):
         if field.data < self.min or field.data > self.max:
+            # TODO Аналогично предыдущему
             raise ValidationError
 
 class RegistrationForm(FlaskForm):
     # Использование задекорированной функции
     number1 = IntegerField(validators=[InputRequired(), number_length(min = 1000000000, max = 9999999999)])
+    # TODO правильно указать min=10, max=10
 
     # Использование класса
     number2 = IntegerField(validators=[InputRequired(), NumberLength(min=1000000000, max=9999999999)])
