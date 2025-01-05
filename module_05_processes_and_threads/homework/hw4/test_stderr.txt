@@ -1,0 +1,5 @@
+Old error
+Traceback (most recent call last):
+  File "C:\Users\deva0\PycharmProjects\python_advanced\module_05_processes_and_threads\homework\hw4\test_redirect.py", line 78, in test_overwriting_existing_file
+    raise Exception('New error')
+Exception: New error
