@@ -3,8 +3,18 @@
 Обратите внимание, что скрипт может быть расположен в любом месте.
 """
 
+code = '''result = 0
+for n in range(1, 11):
+    result += n ** 2
+print("Сумма квадратов от 1 до 10:", result)
+
+# Код, который печатает себя
+print(code)
+'''
+
 result = 0
 for n in range(1, 11):
     result += n ** 2
+print("Сумма квадратов от 1 до 10:", result)
 
-# Secret magic code
+print(code)

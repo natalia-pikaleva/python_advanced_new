@@ -13,6 +13,9 @@
 from typing import List
 
 from flask import Flask
+import subprocess
+import os
+import signal
 
 app = Flask(__name__)
 
@@ -26,8 +29,24 @@ def get_pids(port: int) -> List[int]:
     if not isinstance(port, int):
         raise ValueError
 
+    user_command = ['lsof', '-i', f':{port}']
+
+    process = subprocess.Popen(user_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
     pids: List[int] = []
-    ...
+
+    # Получение вывода и ошибок
+    stdout, stderr = process.communicate()
+
+    if process.returncode != 0:
+        raise Exception(f"Error executing command: {stderr.decode()}")
+
+    output = stdout.decode()
+    lines_process = output.strip().split('\n')
+
+    for i_proc in lines_process[1:]:
+        pids.append(i_proc.split()[1])
+
     return pids
 
 
@@ -37,7 +56,9 @@ def free_port(port: int) -> None:
     @param port: порт
     """
     pids: List[int] = get_pids(port)
-    ...
+
+    for pid in pids:
+        os.kill(int(pid), signal.SIGTERM)
 
 
 def run(port: int) -> None:

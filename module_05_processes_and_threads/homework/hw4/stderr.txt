@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\Users\deva0\PycharmProjects\python_advanced\module_05_processes_and_threads\homework\hw4\redirect.py", line 56, in <module>
+    raise Exception('Hello stderr.txt')
+Exception: Hello stderr.txt
+
