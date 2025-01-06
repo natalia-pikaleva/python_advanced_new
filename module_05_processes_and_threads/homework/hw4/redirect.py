@@ -32,9 +32,8 @@ class Redirect:
             exc_val: BaseException | None,
             exc_tb: TracebackType | None
     ) -> bool:
-        # TODO надо записать в файл поток stderr как это подсказано в задании:
-        #  if self.stderr:
-        #      sys.stderr.write(traceback.format_exc())
+        if self.new_stderr:
+            sys.stderr.write(traceback.format_exc())
 
         sys.stdout = self.old_stdout
         sys.stderr = self.old_stderr
@@ -44,7 +43,7 @@ class Redirect:
         if self.new_stderr is not None and self.new_stderr is not sys.stderr:
             self.new_stderr.close()
 
-        return False
+        return True
 
 
 
@@ -54,11 +53,8 @@ stderr_file = open('stderr.txt', 'w')
 
 
 with Redirect(stdout=stdout_file, stderr=stderr_file):
-    try:
-        print('Hello stdout.txt')
-        raise Exception('Hello stderr.txt')
-    except Exception as e:
-        print(traceback.format_exc(), file=sys.stderr)
+    print('Hello stdout.txt')
+    raise Exception('Hello stderr.txt')
 
 
 
