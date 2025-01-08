@@ -29,6 +29,8 @@ def is_strong_password(password: str) -> bool:
         if re.search(word.lower(), password.lower()):
             logger.debug("Слово английского языка есь в пароле")
             return True
+    # TODO можно уменьшить количество итераций, если регэкспами найти все "слова" в пароле (по факту, все комбинации
+    #  подстрок из букв) и проверить их вхождение в words
     return False
 
 

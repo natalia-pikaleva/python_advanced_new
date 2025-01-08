@@ -27,7 +27,8 @@ def task1() -> Dict[str, int]:
             message_dict[i_log['level']] += 1
         else:
             message_dict[i_log['level']] = 1
-
+    # TODO в задании имелось ввиду распарсить запись лога и получить реальное название уровеня (INFO, WARNING и т.д.)
+    #  чтобы посчитать сколько записей в логе с каждым уровнем
     return message_dict
 
 

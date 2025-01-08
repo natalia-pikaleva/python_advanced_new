@@ -106,6 +106,11 @@ def restore_tree(path_to_log_file: str) -> BinaryTreeNode:
                     parent_node.right = binary_tree_dict[right_child_value]
 
             return root
+# TODO "Связанного" дерева не получилось:
+#  а) ведь надо связывать родительские и дочерние ноды через атрибуты left и right
+#  б) перед созданием новой "ноды", надо учесть, что нода уже может существовать,
+#  в таком случае надо использовать её вместо создания новой. Возможно есть непонимание самой структуры "дерева", стоит
+#  вникнуть в эту тему глубже: https://proproprogs.ru/structure_data/std-binarnye-derevya-nachalo
 
 
 
@@ -119,4 +124,4 @@ if __name__ == "__main__":
     root = get_tree(5)
     walk(root)
 
-    print(restore_tree('walk_log_1.txt'))
+    print(restore_tree('walk_log_4.txt'))
