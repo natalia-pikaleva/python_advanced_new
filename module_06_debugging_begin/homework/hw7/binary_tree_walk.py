@@ -18,6 +18,7 @@ def restore_tree(path_to_log_file: str) -> BinaryTreeNode:
 import itertools
 import logging
 import random
+import re
 from collections import deque
 from dataclasses import dataclass
 from typing import Optional
@@ -71,7 +72,41 @@ def get_tree(max_depth: int, level: int = 1) -> Optional[BinaryTreeNode]:
 
 
 def restore_tree(path_to_log_file: str) -> BinaryTreeNode:
-    pass
+    binary_tree_dict = {}
+    root = None
+
+    with open(path_to_log_file, 'r') as log_file:
+        for line in log_file.readlines():
+            if line.startswith('INFO'):
+                node_value = int(re.search(r'[-+]?\d+', line).group())
+                new_node = BinaryTreeNode(node_value)
+                binary_tree_dict[node_value] = new_node
+
+                if root is None:
+                    root = new_node
+
+
+            elif line.startswith('DEBUG'):
+
+                node_value = int(re.search(r'[-+]?\d+', line).group())
+
+                parent_node = binary_tree_dict[node_value]
+
+                if 'left' in line:
+
+                    left_child_value = int(re.search(r'Adding <BinaryTreeNode\[(.*?)\]>', line).group(1))
+
+                    parent_node.left = binary_tree_dict[left_child_value]
+
+
+                elif 'right' in line:
+
+                    right_child_value = int(re.search(r'Adding <BinaryTreeNode\[(.*?)\]>', line).group(1))
+
+                    parent_node.right = binary_tree_dict[right_child_value]
+
+            return root
+
 
 
 if __name__ == "__main__":
@@ -81,5 +116,7 @@ if __name__ == "__main__":
         filename="walk_log_4.txt",
     )
 
-    root = get_tree(7)
+    root = get_tree(5)
     walk(root)
+
+    print(restore_tree('walk_log_1.txt'))

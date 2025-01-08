@@ -6,10 +6,18 @@
 список всех доступных страниц на сайте с возможностью перехода на них.
 """
 
-from flask import Flask
+from flask import Flask, url_for, render_template
 
 app = Flask(__name__)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    available_routes = []
+    for rule in app.url_map.iter_rules():
+        if rule.endpoint != 'static' and rule.endpoint != 'page_not_found':
+            available_routes.append(rule)
+
+    return render_template('404.html', available_routes=available_routes), 404
 
 @app.route('/dogs')
 def dogs():

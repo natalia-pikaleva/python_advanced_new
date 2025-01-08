@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница не найдена</title>
+</head>
+<body>
+    <h1>Ошибка 404: Страница не найдена</h1>
+    <p>Доступные страницы:</p>
+    <ul>
+        {% for route in available_routes %}
+            <li><a href="{{ url_for(route.endpoint, cat_id=1) }}">{{ route.rule }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
