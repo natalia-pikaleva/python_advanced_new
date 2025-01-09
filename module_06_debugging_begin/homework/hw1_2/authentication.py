@@ -18,12 +18,20 @@
 import getpass
 import hashlib
 import logging
+import re
 
 logger = logging.getLogger("password_checker")
 
 
 def is_strong_password(password: str) -> bool:
-    return True
+    logger.debug("Проверяем, есть ли в пароле слова английского языка")
+    for word in words_list:
+        if re.search(word.lower(), password.lower()):
+            logger.debug("Слово английского языка есь в пароле")
+            return True
+    # TODO можно уменьшить количество итераций, если регэкспами найти все "слова" в пароле (по факту, все комбинации
+    #  подстрок из букв) и проверить их вхождение в words
+    return False
 
 
 def input_and_check_password() -> bool:
@@ -51,10 +59,18 @@ def input_and_check_password() -> bool:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO, filename='stderr.txt', format="%(asctime)s - %(levelname)s - %(message)s",
+                        datefmt='%I:%M:%S %p', encoding="utf-8")
     logger.info("Вы пытаетесь аутентифицироваться в Skillbox")
     count_number: int = 3
     logger.info(f"У вас есть {count_number} попыток")
+
+    words_list = []
+    with open('words.txt', 'r', encoding='utf8') as words_file:
+        for word in words_file:
+            word = word.strip()
+            if len(word) > 3:
+                words_list.append(word)
 
     while count_number > 0:
         if input_and_check_password():
