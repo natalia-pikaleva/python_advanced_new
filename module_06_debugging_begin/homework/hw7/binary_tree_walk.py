@@ -79,39 +79,38 @@ def restore_tree(path_to_log_file: str) -> BinaryTreeNode:
         for line in log_file.readlines():
             if line.startswith('INFO'):
                 node_value = int(re.search(r'[-+]?\d+', line).group())
-                new_node = BinaryTreeNode(node_value)
-                binary_tree_dict[node_value] = new_node
+                if not node_value in binary_tree_dict:
+                    new_node = BinaryTreeNode(node_value)
+                    binary_tree_dict[node_value] = new_node
 
-                if root is None:
-                    root = new_node
+                    if root is None:
+                        root = new_node
 
 
             elif line.startswith('DEBUG'):
 
                 node_value = int(re.search(r'[-+]?\d+', line).group())
 
-                parent_node = binary_tree_dict[node_value]
+
 
                 if 'left' in line:
 
                     left_child_value = int(re.search(r'Adding <BinaryTreeNode\[(.*?)\]>', line).group(1))
 
-                    parent_node.left = binary_tree_dict[left_child_value]
+                    if left_child_value not in binary_tree_dict:
+                        binary_tree_dict[left_child_value] = BinaryTreeNode(left_child_value)
+                    binary_tree_dict[node_value].left = binary_tree_dict[left_child_value]
 
 
                 elif 'right' in line:
 
                     right_child_value = int(re.search(r'Adding <BinaryTreeNode\[(.*?)\]>', line).group(1))
 
-                    parent_node.right = binary_tree_dict[right_child_value]
+                    if right_child_value not in binary_tree_dict:
+                        binary_tree_dict[right_child_value] = BinaryTreeNode(right_child_value)
+                    binary_tree_dict[node_value].right = binary_tree_dict[right_child_value]
 
-            return root
-# TODO "Связанного" дерева не получилось:
-#  а) ведь надо связывать родительские и дочерние ноды через атрибуты left и right
-#  б) перед созданием новой "ноды", надо учесть, что нода уже может существовать,
-#  в таком случае надо использовать её вместо создания новой. Возможно есть непонимание самой структуры "дерева", стоит
-#  вникнуть в эту тему глубже: https://proproprogs.ru/structure_data/std-binarnye-derevya-nachalo
-
+    return root
 
 
 if __name__ == "__main__":
@@ -121,7 +120,8 @@ if __name__ == "__main__":
         filename="walk_log_4.txt",
     )
 
-    root = get_tree(5)
-    walk(root)
+    # root = get_tree(5)
+    # walk(root)
 
     print(restore_tree('walk_log_4.txt'))
+
