@@ -2,10 +2,11 @@ import sys
 from utils import string_to_operator
 import logging
 import logging.config
+from custom_file_handler import dict_config
 
-logging.basicConfig(level = "DEBUG")
+logging.config.dictConfig(dict_config)
 app_logger = logging.getLogger('app_logger')
-
+app_logger.propagate = False
 
 
 def calc(args):
@@ -43,8 +44,6 @@ def calc(args):
             app_logger.error("Can't make operation")
             return True
 
-
-
         print("Result: ", result)
         print(f"{num_1} {operator} {num_2} = {result}")
         app_logger.debug(f"Result: {num_1} {operator} {num_2} = {result}")
@@ -59,3 +58,9 @@ if __name__ == '__main__':
     calc('2/0')
     calc(523)
     calc("523")
+
+    app_logger.error("Special error with not ASCII symbols: йцукен")
+    app_logger.error("Special error with not ASCII symbols: ÎŒØ∏‡°⁄·°€")
+
+
+

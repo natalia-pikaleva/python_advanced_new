@@ -1,0 +1,42 @@
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,030', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,059', 'lineno': 14, 'message': 'Arguments: 2+3'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,078', 'lineno': 49, 'message': 'Result: 2.0 + 3.0 = 5.0'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,088', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,098', 'lineno': 14, 'message': 'Arguments: 2/0'}
+{'level': 'ERROR', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,106', 'lineno': 51, 'message': "Can't make operation: float division by zero"}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,114', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,124', 'lineno': 14, 'message': 'Arguments: 523'}
+{'level': 'ERROR', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,134', 'lineno': 21, 'message': "Invalid arguments 523: 'int' object is not subscriptable"}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,142', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,153', 'lineno': 14, 'message': 'Arguments: 523'}
+{'level': 'ERROR', 'name': 'app_logger', 'asctime': '2025-01-12 10:50:11,160', 'lineno': 51, 'message': "Can't make operation: 'bool' object is not callable"}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,593', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,614', 'lineno': 14, 'message': 'Arguments: 2+3'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,628', 'lineno': 49, 'message': 'Result: 2.0 + 3.0 = 5.0'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,639', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,650', 'lineno': 14, 'message': 'Arguments: 2/0'}
+{'level': 'ERROR', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,661', 'lineno': 51, 'message': "Can't make operation: float division by zero"}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,668', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,677', 'lineno': 14, 'message': 'Arguments: 523'}
+{'level': 'ERROR', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,685', 'lineno': 21, 'message': "Invalid arguments 523: 'int' object is not subscriptable"}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,694', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,703', 'lineno': 14, 'message': 'Arguments: 523'}
+{'level': 'ERROR', 'name': 'app_logger', 'asctime': '2025-01-12 10:52:06,711', 'lineno': 51, 'message': "Can't make operation: 'bool' object is not callable"}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,221', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,248', 'lineno': 14, 'message': 'Arguments: 2+3'}
+{'level': 'INFO', 'name': 'utils_logger', 'asctime': '2025-01-12 11:01:43,268', 'lineno': 27, 'message': 'Started string_to_operator'}
+{'level': 'INFO', 'name': 'utils_logger', 'asctime': '2025-01-12 11:01:43,287', 'lineno': 36, 'message': 'Successfully take operator +'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,305', 'lineno': 49, 'message': 'Result: 2.0 + 3.0 = 5.0'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,317', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,327', 'lineno': 14, 'message': 'Arguments: 2/0'}
+{'level': 'INFO', 'name': 'utils_logger', 'asctime': '2025-01-12 11:01:43,335', 'lineno': 27, 'message': 'Started string_to_operator'}
+{'level': 'INFO', 'name': 'utils_logger', 'asctime': '2025-01-12 11:01:43,342', 'lineno': 36, 'message': 'Successfully take operator /'}
+{'level': 'ERROR', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,350', 'lineno': 51, 'message': "Can't make operation: float division by zero"}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,358', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,366', 'lineno': 14, 'message': 'Arguments: 523'}
+{'level': 'ERROR', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,373', 'lineno': 21, 'message': "Invalid arguments 523: 'int' object is not subscriptable"}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,381', 'lineno': 13, 'message': 'Starting calc'}
+{'level': 'DEBUG', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,388', 'lineno': 14, 'message': 'Arguments: 523'}
+{'level': 'INFO', 'name': 'utils_logger', 'asctime': '2025-01-12 11:01:43,395', 'lineno': 27, 'message': 'Started string_to_operator'}
+{'level': 'ERROR', 'name': 'utils_logger', 'asctime': '2025-01-12 11:01:43,402', 'lineno': 33, 'message': 'Wrong operator value: 2'}
+{'level': 'ERROR', 'name': 'app_logger', 'asctime': '2025-01-12 11:01:43,411', 'lineno': 51, 'message': "Can't make operation: 'bool' object is not callable"}

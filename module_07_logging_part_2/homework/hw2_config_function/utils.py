@@ -4,6 +4,11 @@ import logging
 
 utils_logger = logging.getLogger('utils_logger')
 utils_logger.setLevel(logging.DEBUG)
+utils_logger.propagate = False
+custom_handler = logging.StreamHandler()
+utils_logger.addHandler(custom_handler)
+formatter = logging.Formatter(fmt="%(levelname)s | %(name)s %(asctime)s | %(lineno)s | %(message)s")
+custom_handler.setFormatter(formatter)
 
 OPERATORS = {
     '+': add,

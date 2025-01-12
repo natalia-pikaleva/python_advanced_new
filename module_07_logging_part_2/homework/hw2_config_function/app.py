@@ -5,7 +5,11 @@ import logging.config
 
 logging.basicConfig(level = "DEBUG")
 app_logger = logging.getLogger('app_logger')
-
+app_logger.propagate = False
+custom_handler = logging.StreamHandler()
+app_logger.addHandler(custom_handler)
+formatter = logging.Formatter(fmt="%(levelname)s | %(name)s | %(asctime)s | %(lineno)s | %(message)s")
+custom_handler.setFormatter(formatter)
 
 
 def calc(args):
