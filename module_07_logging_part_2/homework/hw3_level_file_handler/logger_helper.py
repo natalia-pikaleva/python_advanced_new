@@ -5,6 +5,8 @@ import sys
 class LevelFileHandler(logging.Handler):
     def __init__(self, file_name="", mode='a'):
         super().__init__()
+        # TODO тут можно сохранить имя файла file_name в специальном атрибуте и использовать его значение в методе emit
+        #  вместо calc_
 
     def emit(self, record: logging.LogRecord) -> None:
         message = self.format(record)
