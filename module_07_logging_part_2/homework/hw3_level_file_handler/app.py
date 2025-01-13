@@ -2,10 +2,11 @@ import sys
 from utils import string_to_operator
 import logging
 import logging.config
+from logger_helper import get_logger
 
-logging.basicConfig(level = "DEBUG")
-app_logger = logging.getLogger('app_logger')
-
+logging.basicConfig(level="DEBUG")
+app_logger = get_logger('app_logger')
+app_logger.propagate = False
 
 
 def calc(args):
@@ -42,8 +43,6 @@ def calc(args):
         if not result:
             app_logger.error("Can't make operation")
             return True
-
-
 
         print("Result: ", result)
         print(f"{num_1} {operator} {num_2} = {result}")

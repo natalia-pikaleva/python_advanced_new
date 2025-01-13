@@ -1,9 +1,13 @@
 from typing import Union, Callable
 from operator import sub, mul, truediv, add
 import logging
+import logging.config
+from custom_file_handler import dict_config
+
+logging.config.dictConfig(dict_config)
 
 utils_logger = logging.getLogger('utils_logger')
-utils_logger.setLevel(logging.DEBUG)
+utils_logger.propagate = False
 
 OPERATORS = {
     '+': add,

@@ -1,0 +1,22 @@
+<--""
+   Level WARNING
+   |
+   o   "app_logger"
+   |   Level DEBUG
+   |   Propagate OFF
+   |   Handler <LevelFileHandler (DEBUG)>
+   |     Level DEBUG
+   |     Formatter fmt='%(levelname)s | %(name)s | %(asctime)s | %(lineno)s | %(message)s' datefmt=None
+   |   Handler Stream <_io.TextIOWrapper name='<stderr>' mode='w' encoding='utf-8'>
+   |     Level DEBUG
+   |     Formatter fmt='%(levelname)s | %(name)s | %(asctime)s | %(lineno)s | %(message)s' datefmt=None
+   |
+   o   "utils_logger"
+       Level INFO
+       Propagate OFF
+       Handler TimedRotatingFile 'C:\\Users\\deva0\\PycharmProjects\\python_advanced\\module_07_logging_part_2\\homework\\hw6_logging_tree\\utils.log' when='H' interval=36000 backupCount=2
+         Level DEBUG
+         Formatter fmt='%(levelname)s | %(name)s | %(asctime)s | %(lineno)s | %(message)s' datefmt=None
+       Handler Stream <_io.TextIOWrapper name='<stderr>' mode='w' encoding='utf-8'>
+         Level DEBUG
+         Formatter fmt='%(levelname)s | %(name)s | %(asctime)s | %(lineno)s | %(message)s' datefmt=None

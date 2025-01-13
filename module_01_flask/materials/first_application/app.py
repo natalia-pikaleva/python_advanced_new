@@ -19,9 +19,11 @@ def test_function():
     now = datetime.datetime.now().utcnow()
     return f'Это новая тестовая страничка, ответ сгенерирован в {now}'
 
+
 @app.route('/hello_world')  # TODO Определение функции должно отделяться от остального кода двумя пустыми строками
 def hello_world():
     return 'Hello, world!'
+
 
 @app.route('/counter')
 def counter():
@@ -29,10 +31,12 @@ def counter():
     count += 1
     return str(count)
 
+
 @app.route('/cars')
 def cars():
     global cars_list
     return ', '.join(cars_list)
+
 
 @app.route('/cats')
 def cats():
@@ -40,15 +44,18 @@ def cats():
     random_cat = random.choice(cats_list)
     return random_cat
 
+
 @app.route('/get_time/now')
 def get_time_now():
     current_time = datetime.now()
     return 'Точное время: {}'.format(current_time)
 
+
 @app.route('/get_time/future')
 def get_time_future():
     current_time_after_hour = datetime.now() + timedelta(hours=1)
     return 'Точное время через час будет: {}'.format(current_time_after_hour)
+
 
 @app.route('/get_random_word')
 def get_random_word():
@@ -68,4 +75,3 @@ if __name__ == '__main__':
             text_of_book += i_line
 
     words = re.findall(r'\w+', text_of_book)
-
