@@ -32,7 +32,7 @@ for logger, value in dict_config['loggers'].items():
 print("Структурированный словарь из ini-файла:")
 pprint(dict_config)
 # TODO Самое простое решение использовать тот же configparser:
-#
+
 # import configparser
 # import json
 #

@@ -16,11 +16,11 @@ class LevelFileHandler(logging.Handler):
             f.write(message + '\n')
 
 
-class CustomFilter(logging.Filter):  # TODO назовите точнее ASCIIFilter
+class ASCIIFilter(logging.Filter):
     def filter(self, record):
         message = record.getMessage()
-        return all(ord(char) < 128 for char in message)
-        # TODO для проверки message используйте готовый метод isascii строкового типа данных
+        return message.isascii()
+
 
 dict_config = {
     "version": 1,
@@ -32,7 +32,7 @@ dict_config = {
     },
     "filters": {
         "custom_filter": {
-            "()": CustomFilter
+            "()": ASCIIFilter
         }
     },
     "handlers": {
