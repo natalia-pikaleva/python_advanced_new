@@ -2,6 +2,8 @@ import os
 
 from flask import Flask, render_template, send_from_directory
 
+HOST = '0.0.0.0'
+PORT = 5000
 
 root_dir = os.path.dirname(os.path.abspath(__file__))
 template_folder = os.path.join(root_dir, "templates")
@@ -21,4 +23,4 @@ def send_static(path):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host=HOST, port=PORT)
