@@ -4,7 +4,23 @@ Number = Union[int, float, complex]
 
 
 def find_insert_position(array: List[Number], number: Number) -> int:
-    ...
+    if len(array) == 0:
+        return 0
+
+    avg_index = len(array) // 2
+
+    if number == array[avg_index]:
+        return avg_index + 1
+
+    if number < array[avg_index]:
+        for index in range(0, avg_index):
+            if array[index] <= number <= array[index + 1]:
+                return index + 1
+
+    if number > array[avg_index]:
+        for index in range(len(array), avg_index, -1):
+            if array[index - 1] <= number <= array[index]:
+                return index
 
 
 if __name__ == '__main__':
