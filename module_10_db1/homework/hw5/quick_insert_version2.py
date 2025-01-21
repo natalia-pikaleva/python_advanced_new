@@ -20,6 +20,18 @@ def find_insert_position(array: List[Number], number: Number) -> int:
     result = find_insert_position(array[mmin:avg_index], number) + find_insert_position(array[avg_index: mmax], number)
 
     return result
+# TODO намного проще использовать обычный бинарный поиск без рекурсий:
+# def find_insert_position(array: list[Number], number: Number) -> int:
+#     left, right = 0, len(array) - 1
+#     while left <= right:
+#         mid = (left + right) // 2
+#         if array[mid] == number:
+#             return mid
+#         if array[mid] < number:
+#             left = mid + 1
+#         else:
+#             right = mid - 1
+#     return right + 1
 
 
 if __name__ == '__main__':
