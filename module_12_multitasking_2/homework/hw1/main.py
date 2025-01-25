@@ -76,6 +76,7 @@ def load_people_sequential() -> None:
 
 
 def get_people_with_processpool():
+    # TODO удобно использовать контекстные менеджеры с Pool и ThreadPool - не придется закрывать и джойнить
     pool = multiprocessing.Pool(processes=multiprocessing.cpu_count())
     start = time.time()
     result = pool.map(get_people, ID_NUMBERS)
