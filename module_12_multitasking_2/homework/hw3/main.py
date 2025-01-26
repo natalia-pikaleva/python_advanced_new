@@ -21,18 +21,18 @@ def fun2():
         time.sleep(0.25)
 
 
-t1: Thread = Thread(target=fun1)  # TODO добавьте параметр daemon=True
-t2: Thread = Thread(target=fun2)  # TODO Аналогично предыдущему
-# TODO создание потоков работающих в фоновом режиме https://codechick.io/tutorials/python/python-daemon-threads
+t1: Thread = Thread(target=fun1, daemon=True)
+t2: Thread = Thread(target=fun2, daemon=True)
+
 
 try:
     t1.start()
     t2.start()
-    while t1.is_alive() or t2.is_alive():  # TODO вместо цикла достаточно джойнить потоки прямо тут, ведь join блокирующий метод
-        time.sleep(0.1)
+    t1.join()
+    t2.join()
+
 except KeyboardInterrupt:
     print('\nReceived keyboard interrupt, quitting threads.')
     stop_event.set()
-    t1.join()
-    t2.join()
+
     print('Threads have been terminated gracefully.')
