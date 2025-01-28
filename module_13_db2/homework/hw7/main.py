@@ -14,11 +14,13 @@ def register(username: str, password: str) -> None:
 
 
 def hack() -> None:
-    username: str = "I like"
-    password: str = "SQL Injection"
+    username: str = "'; DROP TABLE table_users; --"
+    password: str = "whatever"
     register(username, password)
 
 
 if __name__ == '__main__':
     register('wignorbo', 'sjkadnkjasdnui31jkdwq')
     hack()
+
+
