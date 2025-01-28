@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<h1>Total books in library: {{count_books}}</h1>
+<h1>Books of author: {{author}}</h1>
 
 {% if books %}
 <table class="customTable">
@@ -18,7 +18,6 @@
         <th>ID</th>
         <th>Title</th>
         <th>Author</th>
-        <th>Number of views</th>
     </tr>
     </thead>
     <tbody>
@@ -32,9 +31,6 @@
         </td>
         <td>
             {{ book.author }}
-        </td>
-        <td>
-            {{ book.count_find }}
         </td>
     </tr>
     {% endfor %}
