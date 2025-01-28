@@ -41,6 +41,8 @@ def init_db(initial_records: List[dict]) -> None:
                 count_find INTEGER
                 );
                 """
+                # TODO последнему полю достаточно указать значение по-умолчанию INTEGER DEFAULT 0 и тогда не пришлось
+                #  бы в скрипте инкремента поля использовать IFNULL
             )
             cursor.executemany(
                 """
@@ -70,6 +72,9 @@ def get_all_books() -> List[Book]:
                            SET count_find = IFNULL(count_find, 0) + 1
                            WHERE id = ?
                        """
+            # TODO как видите, данный код дублируется несколько раз, стоит вынести его в отдельную функцию, желательно
+            #  универсальную, с параметром - списком id книг для инкремента просмотров (в запросе вместо where id =
+            #  используйте where id in <id list>
             cursor.execute(response, (i_book.id,))
             cursor.connection.commit()
 
