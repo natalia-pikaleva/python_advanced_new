@@ -9,9 +9,10 @@
 </head>
 <body>
 
-<h1>Total books in library: {{count_books}}</h1>
 
-{% if books %}
+
+{% if book %}
+<h1>Book with id: {{id}}</h1>
 <table class="customTable">
     <thead>
     <tr>
@@ -22,7 +23,6 @@
     </tr>
     </thead>
     <tbody>
-    {% for book in books %}
     <tr>
         <td>
             {{ book.id }}
@@ -37,11 +37,10 @@
             {{ book.count_find }}
         </td>
     </tr>
-    {% endfor %}
     </tbody>
 </table>
 {% else %}
-<h2> Sorry, no books in DB.</h2>
+<h2> Sorry, no books with id {{id}}.</h2>
 {% endif %}
 
 </body>

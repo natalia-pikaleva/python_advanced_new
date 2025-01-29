@@ -61,3 +61,22 @@ def get_all_books() -> List[Book]:
             """
         )
         return [Book(*row) for row in cursor.fetchall()]
+
+def get_books_of_author(author: str) -> List[Book]:
+    with sqlite3.connect('table_books.db') as conn:
+        cursor: sqlite3.Cursor = conn.cursor()
+        response =  """
+            SELECT * from `table_books` WHERE author = ?
+            """
+        cursor.execute(response, (author, ))
+        return [Book(*row) for row in cursor.fetchall()]
+
+def get_count_books() -> int:
+    with sqlite3.connect('table_books.db') as conn:
+        cursor: sqlite3.Cursor = conn.cursor()
+
+        cursor.execute("""
+        SELECT COUNT(*) FROM `table_books`
+        """)
+        result, *_ = cursor.fetchone()
+        return result
