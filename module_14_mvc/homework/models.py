@@ -38,11 +38,10 @@ def init_db(initial_records: List[dict]) -> None:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT,
                 author TEXT,
-                count_find INTEGER
+                count_find INTEGER DEFAULT 0
                 );
                 """
-                # TODO последнему полю достаточно указать значение по-умолчанию INTEGER DEFAULT 0 и тогда не пришлось
-                #  бы в скрипте инкремента поля использовать IFNULL
+
             )
             cursor.executemany(
                 """
@@ -55,6 +54,15 @@ def init_db(initial_records: List[dict]) -> None:
                 ]
             )
 
+def calculate_count_find(book_list: List[Book], cursor: sqlite3.Cursor) -> None:
+    for i_book in book_list:
+        response = """
+                   UPDATE `table_books`
+                       SET count_find = count_find + 1
+                       WHERE id = ?
+                   """
+        cursor.execute(response, (i_book.id,))
+        cursor.connection.commit()
 
 def get_all_books() -> List[Book]:
     with sqlite3.connect('table_books.db') as conn:
@@ -66,17 +74,8 @@ def get_all_books() -> List[Book]:
         )
 
         book_list = [Book(*row) for row in cursor.fetchall()]
-        for i_book in book_list:
-            response = """
-                       UPDATE `table_books`
-                           SET count_find = IFNULL(count_find, 0) + 1
-                           WHERE id = ?
-                       """
-            # TODO как видите, данный код дублируется несколько раз, стоит вынести его в отдельную функцию, желательно
-            #  универсальную, с параметром - списком id книг для инкремента просмотров (в запросе вместо where id =
-            #  используйте where id in <id list>
-            cursor.execute(response, (i_book.id,))
-            cursor.connection.commit()
+
+        calculate_count_find(book_list, cursor)
 
         return book_list
 
@@ -89,14 +88,8 @@ def get_books_of_author(author: str) -> List[Book]:
             """
         cursor.execute(response, (author,))
         book_list = [Book(*row) for row in cursor.fetchall()]
-        for i_book in book_list:
-            response = """
-                                UPDATE `table_books`
-                                    SET count_find = IFNULL(count_find, 0) + 1
-                                    WHERE id = ?
-                                """
-            cursor.execute(response, (i_book.id,))
-            cursor.connection.commit()
+
+        calculate_count_find(book_list, cursor)
 
         return book_list
 
@@ -124,13 +117,6 @@ def add_book_in_db(title: str, author: str) -> None:
 def get_book_id(book_id: int) -> Book:
     with sqlite3.connect('table_books.db') as conn:
         cursor: sqlite3.Cursor = conn.cursor()
-        response = """
-                    UPDATE `table_books`
-                        SET count_find = IFNULL(count_find, 0) + 1
-                        WHERE id = ?
-                    """
-        cursor.execute(response, (book_id,))
-        cursor.connection.commit()
 
         response = """
             SELECT * from `table_books` WHERE id = ?
@@ -139,6 +125,7 @@ def get_book_id(book_id: int) -> Book:
         result = cursor.fetchone()
         if result:
             id, title, author, count_find = result
-
-            return Book(id, title, author, count_find)
+            book = Book(id, title, author, count_find)
+            calculate_count_find([book], cursor)
+            return book
         return None
