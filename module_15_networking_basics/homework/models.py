@@ -47,7 +47,7 @@ def init_db(initial_records: List[dict]) -> None:
                 """
 
             )
-
+            # TODO добавьте создание и таблицы для бронирования
             cursor.executemany(
                 """
                 INSERT INTO `table_rooms`

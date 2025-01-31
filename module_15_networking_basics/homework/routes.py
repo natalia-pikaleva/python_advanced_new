@@ -29,6 +29,7 @@ def add_room_in_bd():
         if data:
             add_room(data)
             return f'Номер успешно добавлен', 200
+            # TODO вместо строки надо вернуть всех список комнат из таблицы (аналогично предыдущему endpoint-у)
 
         else:
             return f'Нет данных', 500
