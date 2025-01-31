@@ -28,8 +28,12 @@ def add_room_in_bd():
 
         if data:
             add_room(data)
-            return f'Номер успешно добавлен', 200
-            # TODO вместо строки надо вернуть всех список комнат из таблицы (аналогично предыдущему endpoint-у)
+            room_list = get_rooms()
+            room_data = [
+                {'roomId': room['id'], 'floor': room['floor'], 'guestNum': room['guestNum'], 'beds': room['beds'],
+                 'price': room['price'], 'free': room['free']} for room in room_list]
+
+            return jsonify({'rooms': room_data}), 200
 
         else:
             return f'Нет данных', 500
