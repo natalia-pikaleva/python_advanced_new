@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "b0adf9ca-bb8a-4028-a574-184080df95c2",
+		"name": "maturity_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40741314"
+	},
+	"item": [
+		{
+			"name": "level_1",
+			"item": [
+				{
+					"name": "get_rooms",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/room?checkIn={{checkIn}}&checkOut={{checkOut}}&guestNum={{guestsNum}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"room"
+							],
+							"query": [
+								{
+									"key": "checkIn",
+									"value": "{{checkIn}}"
+								},
+								{
+									"key": "checkOut",
+									"value": "{{checkOut}}"
+								},
+								{
+									"key": "guestNum",
+									"value": "{{guestsNum}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "booking_room",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"bookingDates\": {\r\n    \"checkIn\": {{checkIn}},\r\n    \"checkOut\": {{checkOut}}\r\n  },\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Smith\",\r\n  \"roomId\": {{roomId}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/booking",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_room",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"floor\": 1,\r\n    \"beds\": 1,\r\n    \"guestNum\": 2,\r\n    \"price\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/add-room",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"add-room"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "checkIn",
+			"value": "\"01032025\"",
+			"type": "string"
+		},
+		{
+			"key": "checkOut",
+			"value": "10032025",
+			"type": "string"
+		},
+		{
+			"key": "guestsNum",
+			"value": "2",
+			"type": "string"
+		}
+	]
+}
