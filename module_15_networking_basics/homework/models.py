@@ -47,7 +47,7 @@ def init_db(initial_records: List[dict]) -> None:
                 """
 
             )
-            # TODO добавьте создание и таблицы для бронирования
+
             cursor.executemany(
                 """
                 INSERT INTO `table_rooms`
@@ -58,39 +58,6 @@ def init_db(initial_records: List[dict]) -> None:
                     for item in initial_records
                 ]
             )
-
-
-def get_rooms(checkIn: str, checkOut: str, guestNum: int) -> List[Room]:
-    with sqlite3.connect('table_rooms.db') as conn:
-        cursor: sqlite3.Cursor = conn.cursor()
-        cursor.execute(
-            """
-            SELECT * from `table_rooms` tr
-                WHERE NOT EXISTS(
-                            SELECT 1 FROM table_booking tb 
-                            WHERE tr.id = tb.roomId AND checkIn = ? AND checkOut = ?
-                    ) AND tr.guestNum = ?
-            """, (checkIn, checkOut, guestNum)
-        )
-
-        room_list = [Room(*row) for row in cursor.fetchall()]
-
-        return room_list
-
-def add_room(data: dict) -> None:
-    with sqlite3.connect('table_rooms.db') as conn:
-        cursor: sqlite3.Cursor = conn.cursor()
-
-        response = """
-        INSERT INTO table_rooms (floor, guestNum, beds, price) VALUES (?, ?, ?, ?)
-        """
-
-        cursor.execute(response, (data['floor'], data['guestNum'], data['beds'], data['price']))
-        cursor.connection.commit()
-
-def is_room_free(data):
-    with sqlite3.connect('table_rooms.db') as conn:
-        cursor: sqlite3.Cursor = conn.cursor()
         cursor.execute(
             """
             SELECT name FROM sqlite_master
@@ -113,6 +80,39 @@ def is_room_free(data):
                 );
                 """
             )
+
+def get_rooms(checkIn: str = "", checkOut: str = "", guestNum: int = 1) -> List[Room]:
+    with sqlite3.connect('table_rooms.db') as conn:
+        cursor: sqlite3.Cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT * from `table_rooms` tr
+                WHERE NOT EXISTS(
+                            SELECT 1 FROM table_booking tb 
+                            WHERE tr.id = tb.roomId AND checkIn = ? AND checkOut = ?
+                    ) AND tr.guestNum >= ?
+            """, (checkIn, checkOut, guestNum)
+        )
+
+        room_list = [Room(*row) for row in cursor.fetchall()]
+
+        return room_list
+
+def add_room(data: dict) -> None:
+    with sqlite3.connect('table_rooms.db') as conn:
+        cursor: sqlite3.Cursor = conn.cursor()
+
+        response = """
+        INSERT INTO table_rooms (floor, guestNum, beds, price) VALUES (?, ?, ?, ?)
+        """
+
+        cursor.execute(response, (data['floor'], data['guestNum'], data['beds'], data['price']))
+        cursor.connection.commit()
+
+def is_room_free(data):
+    with sqlite3.connect('table_rooms.db') as conn:
+        cursor: sqlite3.Cursor = conn.cursor()
+
 
         id = data['roomId']
 
