@@ -1,7 +1,7 @@
 from apispec.ext.marshmallow import MarshmallowPlugin
 from apispec_webframeworks.flask import FlaskPlugin
 from flasgger import APISpec, Swagger
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_restful import Api, Resource
 from marshmallow import ValidationError
 
@@ -23,15 +23,15 @@ class BookList(Resource):
         return schema.dump(get_all_books(), many=True), 200
 
     def post(self) -> tuple[dict, int]:
-        data = request.json
+        data = request.data.decode('utf-8')
         schema = BookSchema()
         try:
-            book = schema.load(data)
+            book = schema.loads(data)
         except ValidationError as exc:
-            return exc.messages, 400
+            return Response(response=str(exc.messages), status=400, mimetype='application/json')
 
         book = add_book(book)
-        return schema.dump(book), 201
+        return Response(response=schema.dumps(book), status=201, mimetype='application/json')
 
 
 swagger = Swagger(app, template_file='../swagger.json')
