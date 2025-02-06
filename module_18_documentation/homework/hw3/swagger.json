@@ -1,0 +1,77 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Calculator API",
+    "version": "1.0.0",
+    "description": "API для выполнения базовых арифметических операций (сложение, вычитание, умножение, деление)."
+  },
+  "host": "localhost:5000",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "paths": {
+    "/calc": {
+      "post": {
+        "summary": "Выполнение арифметической операции",
+        "description": "Выполняет указанную арифметическую операцию.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OperationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешный ответ с результатом операции.",
+            "schema": {
+              "$ref": "#/definitions/OperationResult"
+            }
+          },
+          "400": {
+            "description": "Неверный запрос."
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "OperationRequest": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "type": "string",
+          "enum": ["add", "subtract", "multiply", "divide"],
+          "description": "Тип операции."
+        },
+        "a": {
+          "type": "number",
+          "description": "Первое число."
+        },
+        "b": {
+          "type": "number",
+          "description": "Второе число."
+        }
+      },
+      "required": ["operation", "a", "b"]
+    },
+    "OperationResult": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": ["number", null],
+          "description": "Результат операции."
+        },
+        "errorMessage": {
+          "type": ["string", null],
+          "description": "(Опционально) Сообщение об ошибке."
+        }
+      }
+    }
+  }
+}
