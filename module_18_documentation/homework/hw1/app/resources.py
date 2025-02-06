@@ -101,8 +101,8 @@ class BookResource(Resource):
 
 class AuthorResource(Resource):
     @swag_from(
-        author_spec)  # TODO в задании говорится создать (доработать) декоратор так, чтобы можно было подключать json-файлы, а не python-cкрипты
-    def get(self, id: int = None) -> tuple[list[dict], int]:  # TODO но возвращаются только tuple[dict, int]
+        author_spec)
+    def get(self, id: int = None) -> tuple[[dict], int]:
 
         if id is None:
             schema = AuthorSchema()
