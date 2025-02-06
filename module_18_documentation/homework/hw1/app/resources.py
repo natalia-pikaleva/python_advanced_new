@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource
 from marshmallow import ValidationError
 from flasgger import swag_from
-from author_spec import author_spec
+import json
 
 from models import (
     get_all_books,
@@ -18,6 +18,9 @@ from models import (
     update_author_by_id
 )
 from schemas import BookSchema, AuthorSchema
+
+with open('author_spec.json') as json_file:
+    author_spec = json.load(json_file)
 
 
 class BookResource(Resource):
@@ -97,7 +100,8 @@ class BookResource(Resource):
 
 
 class AuthorResource(Resource):
-    @swag_from(author_spec)  # TODO в задании говорится создать (доработать) декоратор так, чтобы можно было подключать json-файлы, а не python-cкрипты
+    @swag_from(
+        author_spec)  # TODO в задании говорится создать (доработать) декоратор так, чтобы можно было подключать json-файлы, а не python-cкрипты
     def get(self, id: int = None) -> tuple[list[dict], int]:  # TODO но возвращаются только tuple[dict, int]
 
         if id is None:

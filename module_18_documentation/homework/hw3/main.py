@@ -109,28 +109,5 @@ def divide(a: float, b: float) -> float:
     return operator.truediv(a, b)
 
 
-#
-# @app.errorhandler(Exception)
-# def handle_exception(e):
-#     if isinstance(e, DivisionByZeroError):
-#         return jsonify({
-#             "jsonrpc": "2.0",
-#             "error": {
-#                 "code": e.code,
-#                 "message": e.message
-#             },
-#             "id": None
-#         }), 400
-#
-#     return jsonify({
-#         "jsonrpc": "2.0",
-#         "error": {
-#             "code": -32000,
-#             "message": str(e)
-#         },
-#         "id": None
-#     }), 500
-
-
 if __name__ == '__main__':
     app.run('0.0.0.0', debug=True)

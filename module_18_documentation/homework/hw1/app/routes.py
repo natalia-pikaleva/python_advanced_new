@@ -4,7 +4,7 @@ from flask_restful import Api
 from models import DATA, init_db
 
 from resources import BookResource, AuthorResource
-from schemas import BookSchema
+from schemas import BookSchema, AuthorSchema
 from apispec.ext.marshmallow import MarshmallowPlugin
 from apispec_webframeworks.flask import FlaskPlugin
 from flasgger import APISpec, Swagger
