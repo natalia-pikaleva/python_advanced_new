@@ -107,6 +107,17 @@ def get_all_books():
 def get_debtors():
     '''Получение списка должников'''
     receiving_books = session.query(ReceivingBooks).all()
+    # TODO Чтобы в запросе использовать гибридное свойство (с целью получить все данные не прибегая к python, а просто
+    #  одним запросом) и нужно добавить в модель ReceivingBook и так называемое "выражение" (expression) - см. пример
+    #  кода выражения (возможно он не согласован с вашим проектом - это просто пример, а не готовый код)
+    #     @count_date_with_book.expression
+    #     def count_date_with_book(cls):
+    #         """Количество дней, которое читатель держит/держал книгу у себя"""
+    #         end_date = sqlalchemy.case(
+    #             (cls.date_of_return != None, cls.date_of_return),
+    #             else_=sqlalchemy.func.now()
+    #         )
+    #         return sqlalchemy.func.julianday(end_date) - sqlalchemy.func.julianday(cls.date_of_issue)
     debtors_list = []
     for book in receiving_books:
         if book.count_date_with_book > 14:
