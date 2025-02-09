@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, create_engine, Date, Float, Boolean, func
+from sqlalchemy import Column, Integer, String, create_engine, Date, Float, Boolean, func, case
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.ext.hybrid import hybrid_property
+import sqlalchemy
 from datetime import date
 from flask import Flask, jsonify, request
 
@@ -86,6 +87,15 @@ class ReceivingBooks(Base):
         else:
             return (date.today() - self.date_of_issue).days
 
+    @count_date_with_book.expression
+    def count_date_with_book(cls):
+        """Количество дней, которое читатель держит/держал книгу у себя"""
+        end_date = sqlalchemy.case(
+            (cls.date_of_return != None, cls.date_of_return),
+            else_=sqlalchemy.func.now()
+        )
+        return sqlalchemy.func.julianday(end_date) - sqlalchemy.func.julianday(cls.date_of_issue)
+
 
 @app.before_request
 def before_request_func():
@@ -106,23 +116,9 @@ def get_all_books():
 @app.route('/debtors', methods=['GET'])
 def get_debtors():
     '''Получение списка должников'''
-    receiving_books = session.query(ReceivingBooks).all()
-    # TODO Чтобы в запросе использовать гибридное свойство (с целью получить все данные не прибегая к python, а просто
-    #  одним запросом) и нужно добавить в модель ReceivingBook и так называемое "выражение" (expression) - см. пример
-    #  кода выражения (возможно он не согласован с вашим проектом - это просто пример, а не готовый код)
-    #     @count_date_with_book.expression
-    #     def count_date_with_book(cls):
-    #         """Количество дней, которое читатель держит/держал книгу у себя"""
-    #         end_date = sqlalchemy.case(
-    #             (cls.date_of_return != None, cls.date_of_return),
-    #             else_=sqlalchemy.func.now()
-    #         )
-    #         return sqlalchemy.func.julianday(end_date) - sqlalchemy.func.julianday(cls.date_of_issue)
-    debtors_list = []
-    for book in receiving_books:
-        if book.count_date_with_book > 14:
-            book_as_dict = book.to_json()
-            debtors_list.append(book_as_dict)
+    receiving_books = session.query(ReceivingBooks).filter(ReceivingBooks.count_date_with_book > 14).all()
+    debtors_list = [book.to_json for book in receiving_books]
+
     return jsonify(debtors_list=debtors_list), 200
 
 
