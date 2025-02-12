@@ -7,6 +7,7 @@ from typing import Optional
 from PIL import Image, ImageFilter
 
 
+
 def blur_image(src_filename: str, dst_filename: Optional[str] = None):
     """
     Функция принимает на вход имя входного и выходного файлов.
