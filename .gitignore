@@ -139,3 +139,4 @@ dmypy.json
 .swp
 
 prettifier.py
+/module_22_celery/homework/config.py
