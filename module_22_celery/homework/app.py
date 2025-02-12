@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify
-from celery import group
 import logging
 from celery_tasks import (blur_image_task, get_status, add_user_to_weekly_emails,
-                          unsubscribe_user, subscriptions)
+                          unsubscribe_user, send_email_after_blur)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -14,19 +13,20 @@ app = Flask(__name__)
 def blur():
     """Обрабатывает список изображений"""
     images = request.json.get('images')
+    email = request.json.get('email')
+
+    if not email:
+        return jsonify({'error': 'Missing email parameter'}), 400
 
     if images and isinstance(images, list):
-        task_group = group(
-            blur_image_task.s(image_path)
-            for image_path in images
-        )
+        blur_tasks = [blur_image_task.s(image_path) for image_path in images]
 
-        result = task_group.apply_async()
-        # TODO также тут удобно добавить и отправку результата по email, объединив группу с обработчиками картинок и
-        #  задачу отправки по емэйл через "цепочку" (chain)
-        result.save()
+        from celery import chord
 
-        return jsonify({'group_id': result.id}), 202
+        chord(blur_tasks)(send_email_after_blur.s(email))
+
+        return jsonify(
+            {'message': 'Задачи размытия поставлены в очередь.  Письма будут отправлены после обработки.'}), 202
     else:
         return jsonify({'error': 'Missing or invalid images parameter'}), 400
 

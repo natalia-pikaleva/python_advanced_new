@@ -8,6 +8,7 @@ from celery.schedules import crontab
 from image import blur_image
 from datetime import datetime
 from mail import send_email
+from bd import save_data_ib_bd, get_data_by_email
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -75,7 +76,10 @@ def process_weekly_emails():
     for email, subscription_date in list(subscriptions.items()):
         try:
             logger.info(f"Вызываем функцию send_email для {email}")
-            send_email.delay(receiver=email)
+            id, filename = get_data_by_email(email)
+            logger.info(f"Вызываем функцию get_data_by_email для {email}")
+            logger.info(f"id: {id}, filename: {filename}")
+            send_email.delay(receiver=email, filename=filename, order_id=id)
             subscriptions[email] = now
         except Exception as e:
             logger.error(f"Ошибка при отправке email на {email}: {e}")
@@ -92,3 +96,18 @@ def unsubscribe_user(email: str):
         logger.warning(f"Пользователь {email} не найден в списке подписок.")
     except Exception as e:
         logger.error(f"Ошибка при отписке пользователя {email}: {e}")
+
+
+@celery.task
+def send_email_after_blur(results, email):
+    """
+    Эта функция вызывается после завершения всех задач размытия.
+    Она получает список имен файлов и вызывает send_email для каждого из них.
+    """
+    logger.info(f"send_email_after_blur called with results: {results} and email: {email}")
+
+    for filename in results:
+        send_email.delay(email, filename)  # Отправляем каждый файл на почту
+
+    save_data_ib_bd(email=email, files_list=results)
+    return True

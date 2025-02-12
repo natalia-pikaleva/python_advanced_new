@@ -16,7 +16,7 @@ celery = Celery('app',
 
 
 @celery.task
-def send_email(receiver: str, filename: str = 'file_for_send.txt', order_id: str = "", ):
+def send_email(receiver: str, filename: str, order_id: str = "", ):
     """
     Отправляет пользователю `receiver` письмо по заказу `order_id` с приложенным файлом `filename`
     Вы можете изменить логику работы данной функции
@@ -45,3 +45,10 @@ def send_email(receiver: str, filename: str = 'file_for_send.txt', order_id: str
         logger.info(f"Email sent successfully to {receiver}")
     except Exception as e:
         logger.error(f"Error sending email to {receiver}: {e}")
+    # finally:
+    #     # Always cleanup the temporary file
+    #     try:
+    #         os.remove(filename)
+    #         logger.info(f"Удален временный файл: {filename}")
+    #     except Exception as e:
+    #         logger.error(f"Не удалось удалить временный файл {filename}: {e}")
