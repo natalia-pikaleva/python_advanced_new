@@ -22,6 +22,8 @@ def blur():
         )
 
         result = task_group.apply_async()
+        # TODO также тут удобно добавить и отправку результата по email, объединив группу с обработчиками картинок и
+        #  задачу отправки по емэйл через "цепочку" (chain)
         result.save()
 
         return jsonify({'group_id': result.id}), 202
