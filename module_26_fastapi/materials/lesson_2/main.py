@@ -27,7 +27,7 @@ async def say_hello(
     message: Optional[str] = Query(
         None,
         title="Say something pleasant to the user. Don't be arrogant (do not use uppercase)",
-        regex='^[a-z0-9_\-]+$'
+        pattern='^[a-z0-9_-]+$'
     )
 ):
     fake_users_db = {1: 'admin', 2: 'John'}
