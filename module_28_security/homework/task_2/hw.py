@@ -22,6 +22,7 @@ def root(user_input: str = ""):
     # Установка заголовка Content-Security-Policy для запрета инлайн-скриптов
     headers = {
         "Content-Security-Policy": "script-src 'self'; object-src 'self'; frame-src 'self';",
+        # TODO либо достаточно только один такой ключ: "default-src 'self'"
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block"
