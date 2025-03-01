@@ -68,7 +68,7 @@ def create_app():
     @app.route("/clients/<int:client_id>", methods=["GET"])
     def get_client_handler(client_id: int):
         """Получение клиента по ид"""
-        client: Client | None = db.session.query(Client).get(client_id)
+        client: Client = db.session.query(Client).get(client_id)
         return jsonify(client.to_json()), 200
 
     @app.route("/parking", methods=["POST"])
