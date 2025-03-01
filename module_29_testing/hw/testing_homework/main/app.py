@@ -123,7 +123,7 @@ def create_app():
             return "", 201
         except Exception as e:
             db.session.rollback()
-            return jsonify({"error": f"Ошибка при обновлении данных: " f"{e}"}), 500
+            return jsonify({"error": f"Ошибка " f"при обновлении данных: {e}"}), 500
 
     @app.route("/client_parking", methods=["POST"])
     def go_to_parking_handler():
@@ -135,17 +135,20 @@ def create_app():
         parking: Parking = db.session.query(Parking).get(parking_id)
 
         if client is not None:
-            return jsonify({"message": f"Клиент с id {client_id} " f"не найден"}), 404
+            return jsonify({"message": f"Клиент с " f"id {client_id} не найден"}), 404
 
         if parking is not None:
-            return jsonify({"message": "Парковка с id {parking_id} " "не найдена"}), 404
+            return (
+                jsonify({"message": f"Парковка с id " f"{parking_id} не найдена"}),
+                404,
+            )
 
         if not parking.opened:
             return jsonify({"message": "Извините, " "парковка закрыта"}), 404
 
         if parking.count_available_places == 0:
             return (
-                jsonify({"message": "Извините, на парковке " "нет cвободных мест"}),
+                jsonify({"message": "Извините, на " "парковке нет cвободных мест"}),
                 404,
             )
 
@@ -182,7 +185,7 @@ def create_app():
             return "", 201
         except Exception as e:
             db.session.rollback()
-            return jsonify({"error": f"Ошибка при обновлении " f"данных: {e}"}), 500
+            return jsonify({"error": f"Ошибка при " f"обновлении данных: {e}"}), 500
 
     @app.route("/client_parking", methods=["DELETE"])
     def go_out_parking_handler():
@@ -194,11 +197,11 @@ def create_app():
         parking: Parking | None = db.session.query(Parking).get(parking_id)
 
         if not client:
-            return jsonify({"message": f"Клиент с id {client_id} " f"не найден"}), 404
+            return jsonify({"message": f"Клиент с id " f"{client_id} не найден"}), 404
 
         if not parking:
             return (
-                jsonify({"message": f"Парковка с id {parking_id} " f"не найдена"}),
+                jsonify({"message": f"Парковка с id {parking_id} не найдена"}),
                 404,
             )
 
@@ -235,7 +238,7 @@ def create_app():
         except Exception as e:
             db.session.rollback()
             return (
-                jsonify({"error": f"Ошибка при попытке обновить данные: " f"{e}"}),
+                jsonify({"error": f"Ошибка при попытке обновить данные: {e}"}),
                 500,
             )
 
