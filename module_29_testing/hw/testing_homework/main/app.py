@@ -59,9 +59,11 @@ def create_app():
     @app.route("/clients", methods=["GET"])
     def get_clients_handler():
         """Получение клиентов"""
-        clients: List[Client] | None = db.session.query(Client).all()
-        clients_list = [u.to_json() for u in clients]
-        return jsonify(clients_list), 200
+        clients: List[Client] = db.session.query(Client).all()
+        if clients is not None:
+            clients_list = [u.to_json() for u in clients]
+            return jsonify(clients_list), 200
+        return jsonify({"message": "not clients yet"}), 200
 
     @app.route("/clients/<int:client_id>", methods=["GET"])
     def get_client_handler(client_id: int):
@@ -128,14 +130,14 @@ def create_app():
         client_id = request.form.get("client_id", type=int)
         parking_id = request.form.get("parking_id", type=int)
 
-        client: Client | None = db.session.query(Client).get(client_id)
-        parking: Parking | None = db.session.query(Parking).get(parking_id)
+        client: Client = db.session.query(Client).get(client_id)
+        parking: Parking = db.session.query(Parking).get(parking_id)
 
-        if not client:
+        if client is not None:
             return jsonify({"message": f"Клиент с id {client_id} "
                                        f"не найден"}), 404
 
-        if not parking:
+        if parking is not None:
             return jsonify({"message": "Парковка с id {parking_id} "
                                        "не найдена"}), 404
 
