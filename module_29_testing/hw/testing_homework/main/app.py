@@ -59,14 +59,14 @@ def create_app():
     @app.route("/clients", methods=["GET"])
     def get_clients_handler():
         """Получение клиентов"""
-        clients: List[Client] = db.session.query(Client).all()
+        clients: List[Client] | None = db.session.query(Client).all()
         clients_list = [u.to_json() for u in clients]
         return jsonify(clients_list), 200
 
     @app.route("/clients/<int:client_id>", methods=["GET"])
     def get_client_handler(client_id: int):
         """Получение клиента по ид"""
-        client: Client = db.session.query(Client).get(client_id)
+        client: Client | None = db.session.query(Client).get(client_id)
         return jsonify(client.to_json()), 200
 
     @app.route("/parking", methods=["POST"])
@@ -128,8 +128,8 @@ def create_app():
         client_id = request.form.get("client_id", type=int)
         parking_id = request.form.get("parking_id", type=int)
 
-        client: Client = db.session.query(Client).get(client_id)
-        parking: Parking = db.session.query(Parking).get(parking_id)
+        client: Client | None = db.session.query(Client).get(client_id)
+        parking: Parking | None = db.session.query(Parking).get(parking_id)
 
         if not client:
             return jsonify({"message": f"Клиент с id {client_id} "
@@ -147,7 +147,7 @@ def create_app():
             return jsonify({"message": "Извините, на парковке "
                                        "нет cвободных мест"}), 404
 
-        client_parking: ClientParking = (
+        client_parking: ClientParking | None = (
             db.session.query(ClientParking)
             .filter(
                 ClientParking.client_id == client_id,
@@ -190,8 +190,8 @@ def create_app():
         client_id = request.form.get("client_id", type=int)
         parking_id = request.form.get("parking_id", type=int)
 
-        client: Client = db.session.query(Client).get(client_id)
-        parking: Parking = db.session.query(Parking).get(parking_id)
+        client: Client | None = db.session.query(Client).get(client_id)
+        parking: Parking | None = db.session.query(Parking).get(parking_id)
 
         if not client:
             return jsonify({"message": f"Клиент с id {client_id} "
@@ -201,7 +201,7 @@ def create_app():
             return jsonify({"message": f"Парковка с id {parking_id} "
                                        f"не найдена"}), 404
 
-        client_parking: ClientParking = (
+        client_parking: ClientParking | None = (
             db.session.query(ClientParking)
             .filter(
                 ClientParking.client_id == client_id,
