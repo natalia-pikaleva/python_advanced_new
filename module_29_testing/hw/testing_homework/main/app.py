@@ -31,7 +31,7 @@ def create_app():
     def math_route():
         """Тестовый роут для расчета степени"""
         number = int(request.args.get("number", 0))
-        result = number ** 2
+        result = number**2
         return jsonify(result)
 
     @app.route("/clients", methods=["POST"])
@@ -43,8 +43,7 @@ def create_app():
         car_number = request.form.get("car_number", type=str)
 
         new_client = Client(
-            name=name, surname=surname,
-            credit_card=credit_card, car_number=car_number
+            name=name, surname=surname, credit_card=credit_card, car_number=car_number
         )
 
         try:
@@ -85,16 +84,15 @@ def create_app():
         else:
             opened = False
         count_places = request.form.get("count_places", type=int)
-        count_available_places = request.form.get("count_available_places",
-                                                  type=int)
+        count_available_places = request.form.get("count_available_places", type=int)
 
         if count_places <= 0:
             return (
                 jsonify(
                     {
                         "message": "Ошибка при создании парковки, "
-                                   "количество мест на парковке должно "
-                                   "быть больше 0"
+                        "количество мест на парковке должно "
+                        "быть больше 0"
                     }
                 ),
                 404,
@@ -105,8 +103,8 @@ def create_app():
                 jsonify(
                     {
                         "message": "Ошибка при создании парковки, "
-                                   "количество свободных мст должно быть "
-                                   "в диапазоне от 0 до количества всех мест"
+                        "количество свободных мст должно быть "
+                        "в диапазоне от 0 до количества всех мест"
                     }
                 ),
                 404,
@@ -125,8 +123,7 @@ def create_app():
             return "", 201
         except Exception as e:
             db.session.rollback()
-            return jsonify({"error": f"Ошибка при обновлении данных: "
-                                     f"{e}"}), 500
+            return jsonify({"error": f"Ошибка при обновлении данных: " f"{e}"}), 500
 
     @app.route("/client_parking", methods=["POST"])
     def go_to_parking_handler():
@@ -138,20 +135,19 @@ def create_app():
         parking: Parking = db.session.query(Parking).get(parking_id)
 
         if client is not None:
-            return jsonify({"message": f"Клиент с id {client_id} "
-                                       f"не найден"}), 404
+            return jsonify({"message": f"Клиент с id {client_id} " f"не найден"}), 404
 
         if parking is not None:
-            return jsonify({"message": "Парковка с id {parking_id} "
-                                       "не найдена"}), 404
+            return jsonify({"message": "Парковка с id {parking_id} " "не найдена"}), 404
 
         if not parking.opened:
-            return jsonify({"message": "Извините, "
-                                       "парковка закрыта"}), 404
+            return jsonify({"message": "Извините, " "парковка закрыта"}), 404
 
         if parking.count_available_places == 0:
-            return jsonify({"message": "Извините, на парковке "
-                                       "нет cвободных мест"}), 404
+            return (
+                jsonify({"message": "Извините, на парковке " "нет cвободных мест"}),
+                404,
+            )
 
         client_parking: ClientParking | None = (
             db.session.query(ClientParking)
@@ -168,15 +164,14 @@ def create_app():
                 jsonify(
                     {
                         "message": f"Клиент с id {client_id} уже въехал "
-                                   f"на парковку c id {parking_id}"
+                        f"на парковку c id {parking_id}"
                     }
                 ),
                 404,
             )
 
         new_client_parking = ClientParking(
-            client_id=client_id, parking_id=parking_id,
-            time_in=datetime.datetime.now()
+            client_id=client_id, parking_id=parking_id, time_in=datetime.datetime.now()
         )
 
         parking.count_available_places -= 1
@@ -187,8 +182,7 @@ def create_app():
             return "", 201
         except Exception as e:
             db.session.rollback()
-            return jsonify({"error": f"Ошибка при обновлении "
-                                     f"данных: {e}"}), 500
+            return jsonify({"error": f"Ошибка при обновлении " f"данных: {e}"}), 500
 
     @app.route("/client_parking", methods=["DELETE"])
     def go_out_parking_handler():
@@ -200,12 +194,13 @@ def create_app():
         parking: Parking | None = db.session.query(Parking).get(parking_id)
 
         if not client:
-            return jsonify({"message": f"Клиент с id {client_id} "
-                                       f"не найден"}), 404
+            return jsonify({"message": f"Клиент с id {client_id} " f"не найден"}), 404
 
         if not parking:
-            return jsonify({"message": f"Парковка с id {parking_id} "
-                                       f"не найдена"}), 404
+            return (
+                jsonify({"message": f"Парковка с id {parking_id} " f"не найдена"}),
+                404,
+            )
 
         client_parking: ClientParking | None = (
             db.session.query(ClientParking)
@@ -222,7 +217,7 @@ def create_app():
                 jsonify(
                     {
                         "message": f"Клиент с id {client_id} не въезжал "
-                                   f"на парковку c id {parking_id}"
+                        f"на парковку c id {parking_id}"
                     }
                 ),
                 404,
@@ -239,7 +234,9 @@ def create_app():
             return "", 201
         except Exception as e:
             db.session.rollback()
-            return jsonify({"error": f"Ошибка при попытке обновить данные: "
-                                     f"{e}"}), 500
+            return (
+                jsonify({"error": f"Ошибка при попытке обновить данные: " f"{e}"}),
+                500,
+            )
 
     return app
