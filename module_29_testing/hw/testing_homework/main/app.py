@@ -68,8 +68,12 @@ def create_app():
     @app.route("/clients/<int:client_id>", methods=["GET"])
     def get_client_handler(client_id: int):
         """Получение клиента по ид"""
-        client: Client = db.session.query(Client).get(client_id)
-        return jsonify(client.to_json()), 200
+        client: Client | None = db.session.query(Client).get(client_id)
+        if client is not None:
+            return jsonify(client.to_json()), 200
+        else:
+            # Обработка случая, когда client равен None
+            return jsonify({"error": "Client not found"}), 404
 
     @app.route("/parking", methods=["POST"])
     def create_parking_handler():
