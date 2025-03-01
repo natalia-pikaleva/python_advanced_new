@@ -31,7 +31,7 @@ def create_app():
     def math_route():
         """Тестовый роут для расчета степени"""
         number = int(request.args.get("number", 0))
-        result = number**2
+        result = number ** 2
         return jsonify(result)
 
     @app.route("/clients", methods=["POST"])
@@ -233,7 +233,7 @@ def create_app():
             return "", 201
         except Exception as e:
             db.session.rollback()
-            return jsonify({"error": f"Ошибка при обновлении данных: "
+            return jsonify({"error": f"Ошибка при попытке обновить данные: "
                                      f"{e}"}), 500
 
     return app
