@@ -33,7 +33,7 @@ jobs:
 
       - name: Run isort
         run: |
-          isort --check-only module_29_testing/hw/testing_homework/main          
+          isort --check-only --profile black module_29_testing/hw/testing_homework/main          
           
 
       - name: Run tests
