@@ -135,10 +135,10 @@ def create_app():
         client: Client = db.session.query(Client).get(client_id)
         parking: Parking = db.session.query(Parking).get(parking_id)
 
-        if client is not None:
+        if client is None:
             return jsonify({"message": f"Клиент с " f"id {client_id} не найден"}), 404
 
-        if parking is not None:
+        if parking is None:
             return (
                 jsonify({"message": f"Парковка с id " f"{parking_id} не найдена"}),
                 404,
